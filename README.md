@@ -18,7 +18,7 @@ Due to lack of .js knowledge ;
 
 3. the number of Day and number of night Aerials should be corrected on the two buttons to filter the results
 
-![screen](https://raw.githubusercontent.com/MACasuba/AerialTVos/aerial-tv/xcode/screen.png)
+![screenshot](https://github.com/MACasuba/AerialTVos/blob/master/aerial-tv/xcode/screen.png)
 
 Copyright
 Code is partial adapted from Apple's TVMLAudioVideo example app. All Aerial videos are property of Apple Inc.
