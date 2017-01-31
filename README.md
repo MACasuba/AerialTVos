@@ -17,3 +17,7 @@ Due to lack of .js knowledge ;
 2. the thumbnails can be extracted in .js code , but i don't know how to do it (http://stackoverflow.com/questions/36883037/generate-a-thumbnail-snapshot-of-a-video-file-selected-by-a-file-input-at-a-spec)
 
 3. the number of Day and number of night Aerials should be corrected on the two buttons to filter the results
+
+
+Copyright
+Code is partial adapted from Apple's TVMLAudioVideo example app. All Aerial videos are property of Apple Inc.
