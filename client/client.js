@@ -3,19 +3,16 @@
   example used on https://swift.unicorn.tv/screencasts/introduction-to-tvos
 */
 
-
-
 App.onLaunch = function(options) {
   // Create an object to store our catalog entries in
   var data = {
     "day"      : null,
-    "night"    : null
+    "night"    : null,
   };
 
   // Take an XML string and turn it into a parse into a proper DOM
   function parse(xml) {
     var parser = new DOMParser();
-
     return parser.parseFromString(xml, "application/xml");
   }
 
@@ -25,7 +22,7 @@ App.onLaunch = function(options) {
     <document>
      <loadingTemplate>
         <activityIndicator>
-           <title>Loading...</title>
+           <title>Loading aerials...</title>
         </activityIndicator>
      </loadingTemplate>
     </document>`;
@@ -35,6 +32,9 @@ App.onLaunch = function(options) {
 
   // Display video media in full-screen
   function displayVideo(event) {
+  
+
+   
     var url = event.target.getAttribute("video", url);
 
     if (url) {
@@ -48,56 +48,93 @@ App.onLaunch = function(options) {
     }
   }
 
-  // Refresh the catalog and render the navigation and video list
   function refreshCatalog() {
-    if (data["day"] && data["night"]) {
+  //start XML header
       var catalog = '<?xml version="1.0" encoding="UTF-8" ?><document><catalogTemplate><banner><title>Aerial listing</title></banner><list>';
+   for (topic in data)
+       {
+ 				//add section day to xml 
+   			if (data["day"]) {                
+//count the number of day vids
+   var countday = 0;
+   for (var day = 0; day < data[topic]["assets"].length; day++)
+				{
+				if (data[topic]["assets"][day].timeOfDay == "day")   
+				countday++;
+				}
+//				console.log('aatal day:  ' + day + ' : ' + countday);       
+catalog += `<section>
+<listItemLockup>
+<title>day</title>
+<decorationLabel>${countday}</decorationLabel>
+<relatedContent>
+<grid>
+<section>`;
+                 for (i = 0; i < data[topic]["assets"].length; i++)
+                     {
+//only add the day videos to the XML section
+                            if (data[topic]["assets"][i].timeOfDay == "day")   {
+                                //console.log('has video, create day lockup');
+                                catalog += `<lockup video="${data[topic]["assets"][i].url}">
+                                <img src="${data[topic]["assets"][i].cover}" width="550" height="275" />
+                                <title>${data[topic]["assets"][i].accessibilityLabel}</title>
+                                </lockup>`;
+                            }//einde if 
+                        }//einde for
+                  }//einde if day
+                  catalog += `</section>
+                  </grid>
+                  </relatedContent>
+                  </listItemLockup>
+                  <listItemLockup>
+                  <title>night</title>`;
+    }
+     for (topic in data)
+       {
+        //add night to catalog
+        if (data["night"]) {
+				//count videos with night scene
+var countnight = 0;
+for (var night = 0; night < data[topic]["assets"].length; night++)
+				{
+				if (data[topic]["assets"][night].timeOfDay == "night")   
+				countnight++;
+				}
+//build the XML between the two data topics day and night
+catalog += `<decorationLabel>${countnight}</decorationLabel>
+<relatedContent>
+<grid>
+<section>`;
+//only count the night vids
+                 for (j = 0; j < data[topic]["assets"].length; j++)
+                     {
+                            if (data[topic]["assets"][j].timeOfDay == "night")   {
+                                catalog += `<lockup video="${data[topic]["assets"][j].url}">
+                                <img src="${data[topic]["assets"][j].cover}" width="550" height="275" />
+                                <title>${data[topic]["assets"][j].accessibilityLabel}</title>
+                                </lockup>`;
+                            }//einde if 
+                        }//einde for
+        }//einde night
+//close XML
+                  catalog += `</section>
+                  </grid>
+                  </relatedContent>
+                  </listItemLockup>
+                  </section>`;
+       }//einde for
 
-            for (topic in data)
-            {
-        console.log('looping through topic ' + topic);
+//afsluiten catalog
+      catalog += `</list>
+      </catalogTemplate>
+      </document>`;
 
-                catalog += `<section>
-                    <listItemLockup>
-                        <title>${topic}</title>
-                        <decorationLabel>${data[topic]["assets"].length}</decorationLabel>
-                        <relatedContent>
-                            <grid>
-                                <section>`;
-
-        for (i = 0; i < data[topic]["assets"].length; i++)
-        {
-        
-        console.log('looping through videos');
-        console.log(data[topic]["assets"][i]);
-        
-        
- if (data[topic]["assets"][i].url)  {
-        
-
-            console.log('has video, create lockup');
-            catalog += `<lockup video="${data[topic]["assets"][i].url}"> //the actual video
-              <img src="${data[topic]["assets"][i].cover}" width="550" height="275" /> //thumnail image
-              <title>${data[topic]["assets"][i].accessibilityLabel}</title> //location of aerial
-            </lockup>`;
-          }
-        }
-
-        catalog += `</section>
-                            </grid>
-                        </relatedContent>
-                    </listItemLockup>
-                </section>`;
-      }
-
-      catalog += `</list></catalogTemplate></document>`;
       var catalogDoc = parse(catalog);
       catalogDoc.addEventListener("select", displayVideo);
       navigationDocument.pushDocument(catalogDoc);
-    }
-  }
+    
 
-
+}//einde function
 
 
   // Fetch data from an API / server
@@ -109,14 +146,13 @@ App.onLaunch = function(options) {
         if (httpRequest.status === 200) {
           data[topic] = JSON.parse(httpRequest.responseText);
 
-          console.log(data[topic]["assets"][0].url);
+          console.log('--fetching url : ' + data[topic]["assets"][0].url);
           refreshCatalog();
         }
       }
     }
-
     httpRequest.open('GET', 'https://macasuba.github.io/client/api/videos.json');
-    //httpRequest.open('GET', 'a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/assets/entries.json');   
+    //httpRequest.open('GET', 'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json');   
     httpRequest.send();
   }
 
@@ -127,4 +163,8 @@ App.onLaunch = function(options) {
   for (topic in data) {
     fetchData(topic);
   }
-}
+
+
+
+}//end
+
