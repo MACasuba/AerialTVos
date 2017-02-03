@@ -57,9 +57,9 @@ App.onLaunch = function(options) {
    			if (data["day"]) {                
 //count the number of day vids
    var countday = 0;
-   for (var day = 0; day < data[topic]["assets"].length; day++)
+   for (var day = 0; day < data[topic][1]["assets"].length; day++)
 				{
-				if (data[topic]["assets"][day].timeOfDay == "day")   
+				if (data[topic][1]["assets"][day].timeOfDay == "day")   
 				countday++;
 				}
 //				console.log('aatal day:  ' + day + ' : ' + countday);       
@@ -70,14 +70,14 @@ catalog += `<section>
 <relatedContent>
 <grid>
 <section>`;
-                 for (i = 0; i < data[topic]["assets"].length; i++)
+                 for (i = 0; i < data[topic][1]["assets"].length; i++)
                      {
 //only add the day videos to the XML section
-                            if (data[topic]["assets"][i].timeOfDay == "day")   {
+                            if (data[topic][1]["assets"][i].timeOfDay == "day")   {
                                 //console.log('has video, create day lockup');
-                                catalog += `<lockup video="${data[topic]["assets"][i].url}">
-                                <img src="${data[topic]["assets"][i].cover}" width="550" height="275" />
-                                <title>${data[topic]["assets"][i].accessibilityLabel}</title>
+                                catalog += `<lockup video="${data[topic][1]["assets"][i].url}">
+                                <img src="${data[topic][1]["assets"][i].cover}" width="550" height="275" />
+                                <title>${data[topic][1]["assets"][i].accessibilityLabel}</title>
                                 </lockup>`;
                             }//einde if 
                         }//einde for
@@ -95,9 +95,9 @@ catalog += `<section>
         if (data["night"]) {
 				//count videos with night scene
 var countnight = 0;
-for (var night = 0; night < data[topic]["assets"].length; night++)
+for (var night = 0; night < data[topic][1]["assets"].length; night++)
 				{
-				if (data[topic]["assets"][night].timeOfDay == "night")   
+				if (data[topic][1]["assets"][night].timeOfDay == "night")   
 				countnight++;
 				}
 //build the XML between the two data topics day and night
@@ -106,12 +106,12 @@ catalog += `<decorationLabel>${countnight}</decorationLabel>
 <grid>
 <section>`;
 //only count the night vids
-                 for (j = 0; j < data[topic]["assets"].length; j++)
+                 for (j = 0; j < data[topic][1]["assets"].length; j++)
                      {
-                            if (data[topic]["assets"][j].timeOfDay == "night")   {
-                                catalog += `<lockup video="${data[topic]["assets"][j].url}">
-                                <img src="${data[topic]["assets"][j].cover}" width="550" height="275" />
-                                <title>${data[topic]["assets"][j].accessibilityLabel}</title>
+                            if (data[topic][1]["assets"][j].timeOfDay == "night")   {
+                                catalog += `<lockup video="${data[topic][1]["assets"][j].url}">
+                                <img src="${data[topic][1]["assets"][j].cover}" width="550" height="275" />
+                                <title>${data[topic][1]["assets"][j].accessibilityLabel}</title>
                                 </lockup>`;
                             }//einde if 
                         }//einde for
@@ -145,14 +145,14 @@ catalog += `<decorationLabel>${countnight}</decorationLabel>
       if (httpRequest.readyState === 4) {
         if (httpRequest.status === 200) {
           data[topic] = JSON.parse(httpRequest.responseText);
-
-          console.log('--fetching url : ' + data[topic]["assets"][0].url);
+          //console.log('--fetching url : ' + data[topic]["assets"][0].url);
+          console.log('--fetching url : ' + data[topic][1]["assets"].length);
           refreshCatalog();
         }
       }
     }
-    httpRequest.open('GET', 'https://macasuba.github.io/client/api/videos.json');
-    //httpRequest.open('GET', 'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json');   
+    //httpRequest.open('GET', 'https://macasuba.github.io/client/api/videos.json');
+    httpRequest.open('GET', 'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json');   
     httpRequest.send();
   }
 
