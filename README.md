@@ -12,11 +12,10 @@ I found this page : https://swift.unicorn.tv/screencasts/introduction-to-tvos
 
 Due to lack of .js knowledge ;
 
-1. The Apple aerials are in nested arrays, I don't know how to extract them from http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json
+1. The Apple aerials are in nested arrays, I don't know how to extract them all from http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json it now only lists the first array of 17 vids
 
 2. the thumbnails can be extracted in .js code , but i don't know how to do it (http://stackoverflow.com/questions/36883037/generate-a-thumbnail-snapshot-of-a-video-file-selected-by-a-file-input-at-a-spec)
 
-3. the number of Day and number of night Aerials should be corrected on the two buttons to filter the results
 
 ![screenshot](https://github.com/MACasuba/AerialTVos/blob/master/aerial-tv/xcode/screen.png)
 
