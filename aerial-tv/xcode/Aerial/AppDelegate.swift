@@ -6,14 +6,19 @@ import UIKit
 import TVMLKit
 import AVFoundation
 
+
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, TVApplicationControllerDelegate {
     // MARK: Properties
     
     var window: UIWindow?
     var appController: TVApplicationController?
-    
-    static let TVBaseURL = "http://n-hout.nl/data/storage/attachments/client/"
+
+
+
+    static let TVBaseURL = "https://macasuba.github.io/client/"
     //static let TVBaseURL = "http://okofish.github.io/aerial/client/"
     //static let TVBaseURL = "https://jesse.ws/tvos/aerial/"
     
@@ -24,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TVApplicationControllerDe
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.main.bounds)
+        
+
+        
         
     // Create the TVApplicationControllerContext for this application
         let appControllerContext = TVApplicationControllerContext()
@@ -47,8 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TVApplicationControllerDe
         
         return true
     }
- 
- 
+  
     
     // MARK: TVApplicationControllerDelegate
     
@@ -97,9 +104,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TVApplicationControllerDe
     }
  
     
-
-
     
+  
+
     
     
 }
