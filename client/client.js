@@ -117,10 +117,8 @@ catalog += `<decorationLabel>${countnight}</decorationLabel>
 
 //add the other arrays also
 //there are 12 array's (xx)
-// data[topic][xx]["assets"][0].id);
 					  for (var ww = 0; ww < 12; ww++)
 								{
-
 
 //only count the night vids
                  for (j = 0; j < data[topic][ww]["assets"].length; j++)                 
